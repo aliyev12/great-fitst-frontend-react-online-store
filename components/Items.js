@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Query} from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
+import Item from './Item';
 
 const ALL_ITEMS_QUERY = gql`
     query ALL_ITEMS_QUERY {
@@ -39,7 +40,7 @@ class Items extends Component {
               if(error) return <p>Error: {error.message}</p>
             console.log (data);
             return <ItemsList>
-                {data.items.map(item => <p>{item.title}</p>)}
+                {data.items.map(item => <Item item={item}/>)}
             </ItemsList>;
           }}
         </Query>
@@ -49,4 +50,8 @@ class Items extends Component {
 }
 
 
+
 export default Items;
+
+
+// left off at 16 react meets graphql at 17:00
