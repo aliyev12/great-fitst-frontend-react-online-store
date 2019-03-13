@@ -13,7 +13,7 @@ export default class Item extends Component {
     return (
         const item = this.props.
       <div>
-        
+        <h1>hey</h1>
       </div>
     )
   }
