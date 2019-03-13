@@ -36,7 +36,7 @@ const NavStyles = styled.ul`
     &:after {
       content: '';
       height: 2px;
-      background: red;
+      background: #006192;
       width: 0;
       position: absolute;
       transform: translateX(-50%);
