@@ -37,9 +37,12 @@ class Items extends Component {
         <Query query={ALL_ITEMS_QUERY}>
           {({ data, error, loading }) => {
               if(loading) return <p>Loading...</p>
-              if(error) return <p>Error: {error.message}</p>
+              if(error) {
+                // console.log('=======', error);
+                return <p>Error: {error.message}</p>
+              }
             return <ItemsList>
-                {data.items.map((item, i) => {
+                {data.items.map(item => {
                     // console.log('wasamandrapa: ', item.id);
                     return <Item item={item} key={item.id} />;
                 })}
@@ -54,6 +57,4 @@ class Items extends Component {
 
 
 export default Items;
-
-
-// left off at 16 react meets graphql at 17:00
+export { ALL_ITEMS_QUERY };
