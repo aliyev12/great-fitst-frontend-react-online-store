@@ -114,7 +114,7 @@ class CreateItem extends Component {
               <label htmlFor="title">
                 Title
                 <input
-                  value={this.state.title}
+                  value={this.state.formData.title}
                   onChange={this.handleChange}
                   type="text"
                   id="title"
@@ -127,7 +127,7 @@ class CreateItem extends Component {
               <label htmlFor="price">
                 Price
                 <input
-                  value={this.state.price}
+                  value={this.state.formData.price}
                   onChange={this.handleChange}
                   type="number"
                   id="price"
@@ -140,7 +140,7 @@ class CreateItem extends Component {
               <label htmlFor="description">
                 Description
                 <textarea
-                  value={this.state.description}
+                  value={this.state.formData.description}
                   onChange={this.handleChange}
                   name="description"
                   id="description"
