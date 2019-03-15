@@ -192,3 +192,4 @@ class UpdateItem extends Component {
 
 export default UpdateItem;
 export {UPDATE_ITEM_MUTATION};
+export {SINGLE_ITEM_QUERY};

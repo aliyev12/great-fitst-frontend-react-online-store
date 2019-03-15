@@ -42,8 +42,8 @@ class CreateItem extends Component {
     const {name, type, value} = e.target;
     const val = type === 'number' ? parseFloat (value) : value;
     const newFormData = {
-        ...this.state.formData,
-        [name]: val
+      ...this.state.formData,
+      [name]: val,
     };
     this.setState ({formData: newFormData});
   };
@@ -55,23 +55,34 @@ class CreateItem extends Component {
     data.append ('file', files[0]);
     data.append ('upload_preset', 'greatfits');
 
-    const res = await fetch (
-      `https://api.cloudinary.com/v1_1/greatfits/image/upload`,
-      {
-        method: 'POST',
-        body: data,
-      }
-    );
-    const file = await res.json ();
-    const newFormData = {
-      ...this.state.formData,
-      image: file.secure_url,
-      largeImage: file.eager[0].secure_url,
-    };
-    this.setState ({
+    if (files) {
+      const res = await fetch (
+        `https://api.cloudinary.com/v1_1/greatfits/image/upload`,
+        {
+          method: 'POST',
+          body: data,
+        }
+      );
+      const file = await res.json ();
+      const newFormData = {
+        ...this.state.formData,
+        image: file.secure_url,
+        largeImage: file &&
+          file.eager &&
+          file.eager[0] &&
+          file.eager[0].secure_url
+          ? file.eager[0].secure_url
+          : '',
+      };
+      this.setState ({
         formData: newFormData,
-        imageLoading: false
-    });
+        imageLoading: false,
+      });
+    } else {
+      this.setState ({
+        imageLoading: false,
+      });
+    }
   };
 
   render () {
@@ -108,7 +119,12 @@ class CreateItem extends Component {
                   placeholder="Upload an image"
                   required
                 />
-                {this.state.formData.image && <img src={this.state.formData.image} alt={'Upload preview of ' + this.state.formData.title} width="200" />}
+                {this.state.formData.image &&
+                  <img
+                    src={this.state.formData.image}
+                    alt={'Upload preview of ' + this.state.formData.title}
+                    width="200"
+                  />}
               </label>
 
               <label htmlFor="title">
