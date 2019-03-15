@@ -42,7 +42,6 @@ class CreateItem extends Component {
   };
 
   uploadFile = async e => {
-    console.log('Uploading file');
     const files = e.target.files;
     const data = new FormData();
     data.append('file', files[0]);
@@ -53,7 +52,10 @@ class CreateItem extends Component {
       body: data
     });
     const file = await res.json();
-    console.log(file);
+    this.setState({
+        image: file.secure_url,
+        largeImage: file.eager[0].secure_url
+    });
   }
 
   render() {
@@ -63,11 +65,13 @@ class CreateItem extends Component {
           <Form
             onSubmit={async e => {
               // Stop the form from submitting
+              // Before submitting, check if image is done uploading because there could
+              //  be a little bit of time when someone uploads a file then immediately 
+              // hits enter then its going to send the data. 
               e.preventDefault();
               // Call the mutation
               const res = await createItem();
               // Change item to the single item page
-              console.log(res);
               Router.push({
                 pathname: '/item',
                 query: { id: res.data.createItem.id }
@@ -137,6 +141,3 @@ class CreateItem extends Component {
 
 export default CreateItem;
 export { CREATE_ITEM_MUTATION };
-
-
-// video 18 - 7:00
