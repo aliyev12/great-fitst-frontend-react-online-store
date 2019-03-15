@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { Mutation } from "react-apollo";
-import gql from "graphql-tag";
-import Form from "./styles/Form";
-import formatMoney from "../lib/formatMoney";
-import Error from "./ErrorMessage";
+import React, {Component} from 'react';
+import {Mutation} from 'react-apollo';
+import gql from 'graphql-tag';
+import Form from './styles/Form';
+import formatMoney from '../lib/formatMoney';
+import Error from './ErrorMessage';
 import Router from 'next/router';
 
 const CREATE_ITEM_MUTATION = gql`
@@ -28,59 +28,77 @@ const CREATE_ITEM_MUTATION = gql`
 
 class CreateItem extends Component {
   state = {
-    title: "Cat",
-    description: "Miao Cat",
-    image: "miaoaaaa",
-    largeImage: "large miao",
-    price: 0
+    formData: {
+      title: 'Cat',
+      description: 'Miao Cat',
+      image: 'miaoaaaa',
+      largeImage: 'large miao',
+      price: 0,
+    },
+    imageLoading: false,
   };
 
   handleChange = e => {
-    const { name, type, value } = e.target;
-    const val = type === "number" ? parseFloat(value) : value;
-    this.setState({ [name]: val });
+    const {name, type, value} = e.target;
+    const val = type === 'number' ? parseFloat (value) : value;
+    const newFormData = {
+        ...this.state.formData,
+        [name]: val
+    };
+    this.setState ({formData: newFormData});
   };
 
   uploadFile = async e => {
+    this.setState ({imageLoading: true});
     const files = e.target.files;
-    const data = new FormData();
-    data.append('file', files[0]);
-    data.append('upload_preset', 'greatfits');
-    
-    const res = await fetch(`https://api.cloudinary.com/v1_1/greatfits/image/upload`, {
-      method: 'POST',
-      body: data
-    });
-    const file = await res.json();
-    this.setState({
-        image: file.secure_url,
-        largeImage: file.eager[0].secure_url
-    });
-  }
+    const data = new FormData ();
+    data.append ('file', files[0]);
+    data.append ('upload_preset', 'greatfits');
 
-  render() {
+    const res = await fetch (
+      `https://api.cloudinary.com/v1_1/greatfits/image/upload`,
+      {
+        method: 'POST',
+        body: data,
+      }
+    );
+    const file = await res.json ();
+    const newFormData = {
+      ...this.state.formData,
+      image: file.secure_url,
+      largeImage: file.eager[0].secure_url,
+    };
+    this.setState ({
+        formData: newFormData,
+        imageLoading: false
+    });
+  };
+
+  render () {
     return (
-      <Mutation mutation={CREATE_ITEM_MUTATION} variables={this.state}>
-        {(createItem, { loading, error }) => (
+      <Mutation mutation={CREATE_ITEM_MUTATION} variables={this.state.formData}>
+        {(createItem, {loading, error}) => (
           <Form
             onSubmit={async e => {
               // Stop the form from submitting
               // Before submitting, check if image is done uploading because there could
-              //  be a little bit of time when someone uploads a file then immediately 
-              // hits enter then its going to send the data. 
-              e.preventDefault();
-              // Call the mutation
-              const res = await createItem();
-              // Change item to the single item page
-              Router.push({
-                pathname: '/item',
-                query: { id: res.data.createItem.id }
-              });
+              //  be a little bit of time when someone uploads a file then immediately
+              // hits enter then its going to send the data.
+              e.preventDefault ();
+              if (!this.state.imageLoading) {
+                // Call the mutation
+                const res = await createItem ();
+                // Change item to the single item page
+                Router.push ({
+                  pathname: '/item',
+                  query: {id: res.data.createItem.id},
+                });
+              }
             }}
           >
             <Error error={error} />
             <fieldset disabled={loading} aria-busy={loading}>
-            <label htmlFor="file">
+              <label htmlFor="file">
                 Image
                 <input
                   onChange={this.uploadFile}
@@ -90,6 +108,7 @@ class CreateItem extends Component {
                   placeholder="Upload an image"
                   required
                 />
+                {this.state.formData.image && <img src={this.state.formData.image} alt={'Upload preview of ' + this.state.formData.title} width="200" />}
               </label>
 
               <label htmlFor="title">
@@ -140,4 +159,4 @@ class CreateItem extends Component {
 }
 
 export default CreateItem;
-export { CREATE_ITEM_MUTATION };
+export {CREATE_ITEM_MUTATION};
