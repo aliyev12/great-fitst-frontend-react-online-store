@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, {keyframes} from 'styled-components';
 
 const loading = keyframes`
   from {
@@ -62,6 +62,12 @@ const Form = styled.form`
     &[aria-busy='true']::before {
       background-size: 50% auto;
       animation: ${loading} 0.5s linear infinite;
+    }
+    a.forgotPasswordLink {
+    font-style: italic;
+    }
+    a.forgotPasswordLink:hover {
+    color: ${props => props.theme.blue};
     }
   }
 `;

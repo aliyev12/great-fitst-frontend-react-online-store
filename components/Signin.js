@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Mutation} from 'react-apollo';
+import Link from 'next/link';
 import gql from 'graphql-tag';
 import Form from './styles/Form';
 import Error from './ErrorMessage';
@@ -29,18 +30,21 @@ class Signin extends Component {
 
   render () {
     return (
-      <Mutation 
-        mutation={SIGNIN_MUTATION} 
+      <Mutation
+        mutation={SIGNIN_MUTATION}
         variables={this.state}
-        refetchQueries={[{ query: CURRENT_USER_QUERY }]}
-        >
+        refetchQueries={[{query: CURRENT_USER_QUERY}]}
+      >
         {(signin, {error, loading}) => {
           return (
-            <Form method="post" onSubmit={async e => {
-                e.preventDefault();
-                await signin();
-                this.setState({email: '', password: ''});
-            }}>
+            <Form
+              method="post"
+              onSubmit={async e => {
+                e.preventDefault ();
+                await signin ();
+                this.setState ({email: '', password: ''});
+              }}
+            >
               <fieldset disabled={loading} aria-busy={loading}>
 
                 <h2>Sign Into Your Account</h2>
@@ -70,11 +74,15 @@ class Signin extends Component {
                   />
                 </label>
 
-                <button type="submit">Sign In</button>
+                <Link href="/request-reset">
+                  <a className="forgotPasswordLink">Forgot Password</a>
+                </Link>
+
+                <button style={{display: 'block', marginTop: '20px'}} type="submit">Sign In</button>
 
               </fieldset>
             </Form>
-          )
+          );
         }}
       </Mutation>
     );

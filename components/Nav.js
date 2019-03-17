@@ -22,12 +22,21 @@ const Nav = () => (
                             <a>Account</a>
                         </Link>
                         <Signout />
+                        {/* <Link href="/user">
+                            <a>Hey {me.name}!</a>
+                        </Link> */}
+                        
                     </>
                 )}
                 {!me && (
-                    <Link href="/signup">
-                        <a>Sign In</a>
-                    </Link>
+                    <>
+                        <Link href="/signin">
+                            <a>Sign In</a>
+                        </Link>
+                        <Link href="/signup">
+                            <a>Sign Up</a>
+                        </Link>
+                    </>
                 )}
             </NavStyles>
         )}
