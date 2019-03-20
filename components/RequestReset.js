@@ -40,11 +40,15 @@ class RequestReset extends Component {
 
                 <h2>Request Password Reset</h2>
                 <Error error={error} />
-                {!error && !loading && called && <p>Success! Check your email for reset link.</p>}
+                {!error && !loading && called && <div>
+                    <p>Success! A password reset link has been sent to the address you provided.</p>
+                    <p>Please check that email account for this message, which should arrive within a few minutes. (If you do not see the message, be sure to check your Spam/Junk folder.)</p>
+                </div>}
 
                 {/* Check if the request has been submitted or not. If it has been submitted, then don't display email field */}
                 {!called && 
                 /* EMAIL */
+                <>
                 <label htmlFor="email">
                   Email
                   <input
@@ -56,9 +60,8 @@ class RequestReset extends Component {
                     required
                   />
                 </label>
-                }
                 <button type="submit">Request Reset</button>
-
+                   </> }
               </fieldset>
             </Form>
           )
