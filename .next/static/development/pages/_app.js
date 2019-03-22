@@ -586,11 +586,11 @@ var User = function User(props) {
   }), function (payload) {
     return props.children(payload);
   });
-}; // User.PropTypes = {
-//   children: PropTypes.func.isRequired,
-// };
+};
 
-
+User.propTypes = {
+  children: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.func.isRequired
+};
 /* harmony default export */ __webpack_exports__["default"] = (User);
 
 
