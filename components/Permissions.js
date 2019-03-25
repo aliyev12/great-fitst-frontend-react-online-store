@@ -92,8 +92,10 @@ class UserPermissions extends React.Component {
                 perm => perm !== checkbox.value
             );
         }
-        this.setState({permissions: updatedPermissions});
-        updatePermissions();
+        // Set state and call updatePermissions as a callback function because setState is asynchronous
+        this.setState({permissions: updatedPermissions}, function() {
+            updatePermissions();
+        });
     };
     render() {
         const user = this.props.user;

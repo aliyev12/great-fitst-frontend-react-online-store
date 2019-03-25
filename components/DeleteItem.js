@@ -26,11 +26,15 @@ class DeleteItem extends Component {
                 mutation={DELETE_ITEM_MUTATION} 
                 variables={{ id: this.props.id }}
                 update={this.update}
+                refetchQueries={[{query: ALL_ITEMS_QUERY}]}
                 >
             {(deleteItem, { error }) => (
                 <button onClick={() => {
                     if (confirm('Are you sure you want to delete this item?')) {
-                        deleteItem();
+                        deleteItem()
+                            .catch(err => {
+                                alert(err.message)
+                            });
                     }
                 }}>
                 {this.props.children}</button>
