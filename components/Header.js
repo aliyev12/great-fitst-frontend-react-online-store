@@ -4,6 +4,7 @@ import Router from 'next/router';
 // NProgress is nice loading bar. check it out at http://ricostacruz.com/nprogress/
 import NProgress from 'nprogress';
 import Nav from './Nav';
+import Cart from './Cart';
 
 // Liten for the following 3 router events
 Router.onRouteChangeStart = () => {
@@ -70,7 +71,7 @@ const Header = () => (
     <div className="sub-bar">
       <p>Search</p>
     </div>
-    <div>Cart</div>
+    <Cart>hey</Cart>
   </StyledHeader>
 );
 
